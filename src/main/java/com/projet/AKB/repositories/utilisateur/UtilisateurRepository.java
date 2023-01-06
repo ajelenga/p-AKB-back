@@ -1,4 +1,4 @@
-package com.projet.AKB.repositories;
+package com.projet.AKB.repositories.utilisateur;
 
 import com.projet.AKB.entities.Compte;
 import com.projet.AKB.entities.User;

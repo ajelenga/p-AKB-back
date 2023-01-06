@@ -1,7 +1,7 @@
 package com.projet.AKB;
 
 import com.projet.AKB.entities.Compte;
-import com.projet.AKB.repositories.UtilisateurRepository;
+import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
