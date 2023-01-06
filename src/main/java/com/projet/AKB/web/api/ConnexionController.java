@@ -41,11 +41,11 @@ public class ConnexionController {
 
     }
 
-
     @GetMapping(path = "/connexion",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getConnexion2(@RequestBody Compte login)throws Exception{
         log.info("Login du user {}",login.getMail_cpt());
         log.info("Mot de passe du user ={}",login.getMail_cpt());
+
         List<Compte> comptes = utilisateurRepository.findAll();
         Compte c = new Compte();
         comptes.forEach(compte -> {

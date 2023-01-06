@@ -1,6 +1,7 @@
 package com.projet.AKB.service.utilisateur;
 
 import com.projet.AKB.entities.Compte;
+import com.projet.AKB.entities.User;
 import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
 import com.projet.AKB.service.utilisateur.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;

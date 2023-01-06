@@ -31,16 +31,16 @@ public class Compte {
     @Column(name = "mot_de_passe_cpt")
     private String mot_de_passe_cpt;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usr",nullable = false)
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_cpt",nullable = false)
+    @JoinColumn(name = "id_cpt",nullable = true)
     private List<Reservation> reservation = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_cpt",nullable = false)
+    @JoinColumn(name = "id_cpt",nullable = true)
     private List<Vehicule> vehicules = new ArrayList<>();
 
 
