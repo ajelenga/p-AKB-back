@@ -1,69 +1,62 @@
-/*
 package com.projet.AKB.dtos.vehicule;
 
 
 import com.projet.AKB.entities.Compte;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@EqualsAndHashCode
-@Getter
-@Setter
-@ToString(doNotUseGetters = true)
+@Data
 public class VehiculeTO {
 
-    private Long idvcl;
+    private Long idvclTO;
 
 
-    private String marquevcl;
+    private String marquevclTO;
 
 
-    private String modelvcl;
+    private String modelvclTO;
 
 
-    private String serievcl;
+    private String serievclTO;
 
-    private String typemoteurvcl;
-
-
-    private String reservoirvcl;
+    private String typemoteurvclTO;
 
 
-    private String kmvcl;
+    private String reservoirvclTO;
 
 
-    private String couleurvcl;
+    private String kmvclTO;
 
 
-    private String descriptionvcl;
+    private String couleurvclTO;
 
 
-    private String boitevitessevcl;
+    private String descriptionvclTO;
 
 
-    private String statutvcl;
+    private String boitevitessevclTO;
 
 
-    private Date datemiseligne;
+    private String statutvclTO;
 
 
-    private Date datedebutdisponibilite;
+    private Date datemiseligneTO;
 
 
-    private Date datefindisponibilite;
+    private Date datedebutdisponibiliteTO;
 
 
-    private Double cautionvcl;
+    private Date datefindisponibiliteTO;
 
-    private Double prixvcl;
-    private Compte compte;
+
+    private Double cautionvclTO;
+
+    private Double prixvclTO;
+    private Compte compteTO;
 
 
 
 }
-*/
+
