@@ -2,6 +2,7 @@ package com.projet.AKB.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,34 +12,35 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(name="t_user_usr")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usr",nullable = false)
-    private Long id_usr;
+    private Long idusr;
 
     @Column(name = "nom_usr",nullable = false)
-    private String nom_usr;
+    private String nomusr;
 
     @Column(name = "prenom_usr",nullable = false)
-    private String prenom_usr;
+    private String prenomusr;
 
     @Column(name = "date_naissance",nullable = false)
-    private Date date_naissance;
+    private Date datenaissance;
 
     @Column(name = "adresse_usr",nullable = false)
-    private String adresse_usr;
+    private String adresseusr;
 
     @Column(name = "code_postale_usr",nullable = false)
-    private String code_postale_usr;
+    private String codepostaleusr;
 
     @Column(name = "piece_identite_usr",nullable = false)
-    private String piece_identite_usr;
+    private String pieceidentiteusr;
 
     @Column(name = "sexe_usr",nullable = false)
-    private String sexe_usr;
+    private String sexeusr;
 
 
 

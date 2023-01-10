@@ -1,6 +1,7 @@
 package com.projet.AKB;
 
 import com.projet.AKB.entities.Compte;
+import com.projet.AKB.entities.User;
 import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +25,7 @@ public class AkbApplication {
 		return args -> {
 
 			restConfiguration.exposeIdsFor(Compte.class);
+
 /*			depenseRepository.save(new Depense(null,"kebab",15.89,new Date(),"nouriture",null,null));
 			depenseRepository.save(new Depense(null,"parfum",29.89,new Date(),"habillement",null,null));
 			depenseRepository.save(new Depense(null,"salle",25.89,new Date(),"sport",null,null));

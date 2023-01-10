@@ -19,13 +19,13 @@ public class Administrateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_adm",nullable = false)
-    private Long id_adm;
+    private Long idadm;
 
     @Column(name = "mail_adm")
-    private String mail_adm;
+    private String mailadm;
 
     @Column(name = "photo_profil_adm")
-    private String photo_profil_adm;
+    private String photoprofiladm;
 
     @Column(name = "mot_de_passe_adm")
     private String mot_de_passe_adm;

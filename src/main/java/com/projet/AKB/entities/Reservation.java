@@ -2,6 +2,7 @@ package com.projet.AKB.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 @AllArgsConstructor
 @Table(name="t_reservation_rsv")
 public class Reservation {
@@ -17,22 +19,22 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rsv",nullable = false)
-    private Long id_rsv;
+    private Long idrsv;
 
     @Column(name = "numero_reservation_rsv",nullable = false)
-    private Long numero_reservation_rsv;
+    private Long numeroreservationrsv;
 
     @Column(name = "date_debut_location_rsv",nullable = false)
-    private Date date_debut_location_rsv;
+    private Date datedebutlocationrsv;
 
     @Column(name = "date_fin_location_rsv",nullable = false)
-    private Date date_fin_location_rsv;
+    private Date datefinlocationrsv;
 
     @Column(name = "caution_rsv",nullable = false)
-    private Double caution_rsv;
+    private Double cautionrsv;
 
     @Column(name = "paiement_rsv",nullable = false)
-    private Double paiement_rsv;
+    private Double paiementrsv;
 
     @OneToOne
     @JoinColumn(name = "id_vcl",nullable = false)

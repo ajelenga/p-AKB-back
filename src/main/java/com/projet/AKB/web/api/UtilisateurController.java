@@ -1,6 +1,8 @@
 package com.projet.AKB.web.api;
 
 import com.projet.AKB.entities.Compte;
+import com.projet.AKB.entities.Reservation;
+import com.projet.AKB.entities.Vehicule;
 import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/* Class pour faire les test */
 @RestController
 @CrossOrigin
 public class UtilisateurController {
@@ -32,6 +34,7 @@ public class UtilisateurController {
             Compte c= new Compte();
             c.setUser(compte.getUser());
             c.setReservation(compte.getReservation());
+
             l.add(c);
         });
 
