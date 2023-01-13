@@ -2,6 +2,8 @@ package com.projet.AKB.web.api;
 
 
 
+import com.projet.AKB.dtos.vehicule.VehiculeMapper;
+import com.projet.AKB.dtos.vehicule.VehiculeTO;
 import com.projet.AKB.entities.Vehicule;
 import com.projet.AKB.repositories.vehicule.VehiculeRepository;
 import com.projet.AKB.service.inscription.InscriptionServiceImpl;
@@ -29,6 +31,9 @@ public class VehiculeController {
     @Autowired
     VehiculeRepository vehiculeRepository;
 
+    @Autowired
+    VehiculeMapper vehiculeMapper;
+
 /*    @Autowired
     VehiculeMapper vehiculeMapper;*/
     @GetMapping(path = "/vehicules",  produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,11 +47,13 @@ public class VehiculeController {
     }
 
     @GetMapping(path = "/vehiculeOne/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vehicule> getConnexion(@PathVariable(name = "id") Long code) throws Exception {
+    public ResponseEntity<VehiculeTO> getConnexion(@PathVariable(name = "id") Long code) throws Exception {
         Vehicule v =new Vehicule();
+        VehiculeTO VTO = new VehiculeTO();
         Vehicule v1 = vehiculeRepository.findById(code).get();
+        VTO = vehiculeMapper.toDTO(v1);
       //  v = vehiculeMapper.toEntity(v1);
-        return new ResponseEntity<>(v, HttpStatus.OK);
+        return new ResponseEntity<>(VTO, HttpStatus.OK);
 
     }
 

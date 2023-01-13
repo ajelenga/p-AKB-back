@@ -1,12 +1,16 @@
 package com.projet.AKB.web.api;
 
+import com.projet.AKB.entities.Administrateur;
 import com.projet.AKB.entities.Compte;
 import com.projet.AKB.entities.User;
+import com.projet.AKB.entities.Verificateur;
+import com.projet.AKB.repositories.administrateur.AdminRepository;
 import com.projet.AKB.repositories.inscription.InscriptionRepository;
-import com.projet.AKB.repositories.inscription.UserInscriptionRepository;
+import com.projet.AKB.repositories.inscription.UserConnexionAndInscriptionRepository;
 import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
+import com.projet.AKB.service.administrateur.AdministrateurService;
 import com.projet.AKB.service.inscription.InscriptionServiceImpl;
-import com.projet.AKB.service.utilisateur.UtilisateurServiceImpl;
+import com.projet.AKB.service.verificateur.VerificateurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +30,23 @@ public class InscriptionController {
     InscriptionRepository inscriptionRepository;
 
     @Autowired
-    UserInscriptionRepository userInscriptionRepository;
+    UserConnexionAndInscriptionRepository userInscriptionRepository;
 
     @Autowired
     InscriptionServiceImpl inscriptionService;
+
+    @Autowired
+    AdminRepository adminRepository;
     @Autowired
     UtilisateurRepository utilisateurRepository;
+
+    @Autowired
+    AdministrateurService administrateurService;
+
+    @Autowired
+    VerificateurService verificateurService;
+
+
     @PostMapping(value = "/inscriptionUtilisateur", produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> save(@RequestBody Compte compte) throws Exception {
         log.info("Inscritpion start");
@@ -39,9 +54,12 @@ public class InscriptionController {
 
         String email = compte.getMailcpt();
         if(email !=null && !"".equals(email)){
-            Compte compteObj = inscriptionService.fetchByEmail(email);
+            String compteObj = inscriptionService.fetchByEmail(email);
+
             if(compteObj != null){
-                throw new Exception("this user with email exist in data base");
+                ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué", HttpStatus.INTERNAL_SERVER_ERROR);
+                return  inscriptionEffectué;
+
             }
         }
         User u1=new User();
@@ -57,7 +75,49 @@ public class InscriptionController {
         log.info("compte ={}", comp);
         inscriptionRepository.save(comp);
 
+
         return new ResponseEntity<String>("Inscription effectué", HttpStatus.CREATED);
 
     }
+
+
+    @PostMapping(value = "/AjoutAdministrateur", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> save(@RequestBody Administrateur administrateur) throws Exception {
+        log.info("Ajout start");
+        log.info("Ajouter d'un administrateur ={}", administrateur);
+
+        String email = administrateur.getMailadm();
+        if(email !=null && !"".equals(email)){
+            String compteObj = null;
+            if(adminRepository.findBymailadm(email)!=null){
+               compteObj = adminRepository.findBymailadm(email).getMailadm();
+                if(compteObj != null){
+                 ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué adresse email existe déja", HttpStatus.INTERNAL_SERVER_ERROR);
+                 return  inscriptionEffectué;
+                 }
+            }
+
+        }
+        User u1=new User();
+        u1 = administrateur.getUser();
+        log.info("USER ={}", u1);
+        userInscriptionRepository.save(u1);
+        Administrateur comp = new Administrateur();
+
+        comp.setMailadm(administrateur.getMailadm());
+        comp.setMot_de_passe_adm(administrateur.getMot_de_passe_adm());
+        comp.setUser(u1);
+
+        log.info("compte ={}", comp);
+        adminRepository.save(comp);
+
+
+        return new ResponseEntity<String>("Ajout de l'admin a été effectué avec succés", HttpStatus.CREATED);
+
+    }
+
+
+
+
+
 }

@@ -9,7 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+ /*  -Djps.track.ap.dependencies=false
+ * 	 Setting:-
 
+Build, Execution, Deployment -> Compiler -> Shared build process VM options */
 @EnableSwagger2
 @SpringBootApplication
 public class AkbApplication {

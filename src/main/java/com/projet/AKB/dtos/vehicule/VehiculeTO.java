@@ -54,7 +54,7 @@ public class VehiculeTO {
     private Double cautionvclTO;
 
     private Double prixvclTO;
-    private Compte compteTO;
+    private String compteTO;
 
 
 

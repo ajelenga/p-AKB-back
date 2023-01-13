@@ -1,7 +1,11 @@
 package com.projet.AKB.web.api;
 
+import com.projet.AKB.dtos.StatutConnexion;
+import com.projet.AKB.dtos.login.LoginTO;
 import com.projet.AKB.entities.Compte;
+import com.projet.AKB.entities.User;
 import com.projet.AKB.repositories.connexion.ConnexionRepository;
+import com.projet.AKB.repositories.inscription.UserConnexionAndInscriptionRepository;
 import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +28,11 @@ public class ConnexionController {
     @Autowired
     private ConnexionRepository connexionRepository;
 
+    @Autowired
+    private UserConnexionAndInscriptionRepository userConnexionAndInscriptionRepository;
+
+
+
 /*    @GetMapping(path = "/connexion/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getConnexion(@PathVariable(name = "id") String code) throws Exception {
         log.info("connexion numéro ={}", code);
@@ -44,18 +53,25 @@ public class ConnexionController {
 
     }*/
 
-    @GetMapping(path = "/connexion", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getConnexion2(@RequestBody Compte login) throws Exception {
-        log.info("Login du user {}", login.getMailcpt());
-        log.info("Mot de passe du user ={}", login.getMailcpt());
+    @GetMapping(path = "/connexionUser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StatutConnexion> getConnexion2(@RequestBody LoginTO login) throws Exception {
+        log.info("Login du user {}", login.getLogin());
+        log.info("Mot de passe du user ={}", login.getMot_de_pass());
 
-        Compte c =connexionRepository.findBymailcptAndMotdepassecpt(login.getMailcpt(),login.getMotdepassecpt());
+        Compte c =connexionRepository.findBymailcptAndMotdepassecpt(login.getEmail(),login.getMot_de_pass());
+        StatutConnexion response = new StatutConnexion();
         log.info("Compte = {}", c);
         if (c == null) {
-            return new ResponseEntity<>("pas de connexion", HttpStatus.OK);
+            response.setStatutTO("Pas de connexion");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
-        return new ResponseEntity<>("connecté", HttpStatus.OK);
-
+        User u =userConnexionAndInscriptionRepository.getById(c.getIdcpt());
+        response.setMailcptTO(c.getMailcpt());
+        response.setPrenomusrTO(u.getPrenomusr());
+        response.setNomusrTO(u.getNomusr());
+        response.setStatutTO("user");
+        response.setReponseTO(HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

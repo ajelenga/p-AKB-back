@@ -5,11 +5,13 @@ import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
 import com.projet.AKB.service.utilisateur.UtilisateurService;
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Component
 public class ConnexionServiceImpl implements ConnexionService{
 
     @Autowired

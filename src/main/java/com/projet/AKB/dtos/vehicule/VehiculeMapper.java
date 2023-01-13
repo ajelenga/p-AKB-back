@@ -27,7 +27,7 @@ public interface VehiculeMapper  {
     @Mapping(source ="datefindisponibilite", target = "datefindisponibiliteTO")
     @Mapping(source ="cautionvcl", target = "cautionvclTO")
     @Mapping(source ="prixvcl", target = "prixvclTO")
-    @Mapping(source ="compte", target = "compteTO")
+    @Mapping(source ="compte.user.nomusr", target = "compteTO")
     VehiculeTO toDTO(Vehicule d);
 
     Vehicule toEntity(VehiculeTO d);
