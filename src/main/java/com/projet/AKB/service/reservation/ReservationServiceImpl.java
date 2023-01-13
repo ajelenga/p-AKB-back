@@ -7,7 +7,10 @@ import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +33,15 @@ public class ReservationServiceImpl implements ReservationService{
         });
 
         return reservationTOList;
+    }
+
+
+    public String formatDate(String Date) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(Date);
+        SimpleDateFormat formater = null;
+        formater = new SimpleDateFormat("yyyy-MM-dd");
+        return (formater.format(date));
+
     }
 
 }

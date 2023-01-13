@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -23,9 +25,11 @@ public class Reservation {
     @Column(name = "numero_reservation_rsv",nullable = false)
     private Long numeroreservationrsv;
 
+    @DateTimeFormat(pattern="dd/MM/yyyy")
     @Column(name = "date_debut_location_rsv",nullable = false)
     private Date datedebutlocationrsv;
 
+    @DateTimeFormat(pattern="dd/MM/yyyy")
     @Column(name = "adresse_prise_vehicule_rsv",nullable = false)
     private String adressePriseVehicule;
 

@@ -31,31 +31,15 @@ public class VehiculeTO {
 
 
     private String couleurvclTO;
-
-
     private String descriptionvclTO;
-
-
     private String boitevitessevclTO;
-
-
     private String statutvclTO;
-
-
     private Date datemiseligneTO;
-
-
     private Date datedebutdisponibiliteTO;
-
-
     private Date datefindisponibiliteTO;
-
-
     private Double cautionvclTO;
-
     private Double prixvclTO;
     private String compteTO;
-
     private String NomcompteTO;
 
 
