@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -27,6 +26,9 @@ public class Reservation {
     @Column(name = "date_debut_location_rsv",nullable = false)
     private Date datedebutlocationrsv;
 
+    @Column(name = "adresse_prise_vehicule_rsv",nullable = false)
+    private String adressePriseVehicule;
+
     @Column(name = "date_fin_location_rsv",nullable = false)
     private Date datefinlocationrsv;
 
@@ -39,7 +41,5 @@ public class Reservation {
     @OneToOne
     @JoinColumn(name = "id_vcl",nullable = false)
     private Vehicule vehicule;
-
-
 
 }

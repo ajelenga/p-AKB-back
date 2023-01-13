@@ -1,7 +1,7 @@
 package com.projet.AKB.dtos.vehicule;
 
 
-import com.projet.AKB.entities.Compte;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -55,6 +55,8 @@ public class VehiculeTO {
 
     private Double prixvclTO;
     private String compteTO;
+
+    private String NomcompteTO;
 
 
 

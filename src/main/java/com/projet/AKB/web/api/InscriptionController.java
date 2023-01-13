@@ -51,15 +51,12 @@ public class InscriptionController {
     public ResponseEntity<String> save(@RequestBody Compte compte) throws Exception {
         log.info("Inscritpion start");
         log.info("Ajouter d'un compte ={}", compte);
-
         String email = compte.getMailcpt();
         if(email !=null && !"".equals(email)){
             String compteObj = inscriptionService.fetchByEmail(email);
-
             if(compteObj != null){
                 ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué", HttpStatus.INTERNAL_SERVER_ERROR);
                 return  inscriptionEffectué;
-
             }
         }
         User u1=new User();
@@ -67,15 +64,11 @@ public class InscriptionController {
         log.info("USER ={}", u1);
         userInscriptionRepository.save(u1);
         Compte comp = new Compte();
-
         comp.setMailcpt(compte.getMailcpt());
         comp.setMotdepassecpt(compte.getMotdepassecpt());
         comp.setUser(u1);
-
         log.info("compte ={}", comp);
         inscriptionRepository.save(comp);
-
-
         return new ResponseEntity<String>("Inscription effectué", HttpStatus.CREATED);
 
     }
@@ -88,15 +81,11 @@ public class InscriptionController {
 
         String email = administrateur.getMailadm();
         if(email !=null && !"".equals(email)){
-            String compteObj = null;
-            if(adminRepository.findBymailadm(email)!=null){
-               compteObj = adminRepository.findBymailadm(email).getMailadm();
+            String compteObj = inscriptionService.fetchByEmail(email);
                 if(compteObj != null){
                  ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué adresse email existe déja", HttpStatus.INTERNAL_SERVER_ERROR);
                  return  inscriptionEffectué;
-                 }
             }
-
         }
         User u1=new User();
         u1 = administrateur.getUser();
@@ -119,5 +108,36 @@ public class InscriptionController {
 
 
 
+    @PostMapping(value = "/AjoutVerificateur", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> save(@RequestBody Verificateur verificateur) throws Exception {
+        log.info("Ajout start");
+        log.info("Ajouter d'un Verificateur ={}", verificateur);
 
+        String email = verificateur.getMailvrf();
+        if(email !=null && !"".equals(email)){
+            String compteObj = inscriptionService.fetchByEmail(email);
+                if(compteObj != null){
+                    ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué adresse email existe déja", HttpStatus.INTERNAL_SERVER_ERROR);
+                    return  inscriptionEffectué;
+
+            }
+
+        }
+        User u1=new User();
+        u1 = verificateur.getUser();
+        log.info("USER ={}", u1);
+        userInscriptionRepository.save(u1);
+        Administrateur comp = new Administrateur();
+
+        comp.setMailadm(verificateur.getMailvrf());
+        comp.setMot_de_passe_adm(verificateur.getMotdepassevrf());
+        comp.setUser(u1);
+
+        log.info("compte ={}", comp);
+        adminRepository.save(comp);
+
+
+        return new ResponseEntity<String>("Ajout de l'admin a été effectué avec succés", HttpStatus.CREATED);
+
+    }
 }
