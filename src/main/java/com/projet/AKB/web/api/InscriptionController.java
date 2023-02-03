@@ -1,5 +1,6 @@
 package com.projet.AKB.web.api;
 
+import com.projet.AKB.dtos.StatutConnexion;
 import com.projet.AKB.entities.Administrateur;
 import com.projet.AKB.entities.Compte;
 import com.projet.AKB.entities.User;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -48,18 +51,24 @@ public class InscriptionController {
 
 
     @PostMapping(value = "/inscriptionUtilisateur", produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> save(@RequestBody Compte compte) throws Exception {
+    public ResponseEntity<StatutConnexion> save(@RequestBody Compte compte) throws Exception {
         log.info("Inscritpion start");
         log.info("Ajouter d'un compte ={}", compte);
+        StatutConnexion response = new StatutConnexion();
         String email = compte.getMailcpt();
         if(email !=null && !"".equals(email)){
             String compteObj = inscriptionService.fetchByEmail(email);
             if(compteObj != null){
-                ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué", HttpStatus.INTERNAL_SERVER_ERROR);
+                response.setStatutTO("Inscription non effectué");
+                response.setCommentaireTO("adesse email " + compte.getMailcpt()+ " existe déja");
+                ResponseEntity<StatutConnexion> inscriptionEffectué = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
                 return  inscriptionEffectué;
             }
         }
+
         User u1=new User();
+        response.setStatutTO("Inscription effectué");
+        compte.getUser().setDatenaissance(new Date(23/12/1994));
         u1 = compte.getUser();
         log.info("USER ={}", u1);
         userInscriptionRepository.save(u1);
@@ -69,9 +78,10 @@ public class InscriptionController {
         comp.setUser(u1);
         log.info("compte ={}", comp);
         inscriptionRepository.save(comp);
-        return new ResponseEntity<String>("Inscription effectué", HttpStatus.CREATED);
+        return new ResponseEntity<StatutConnexion>(response, HttpStatus.CREATED);
 
     }
+
 
 
     @PostMapping(value = "/AjoutAdministrateur", produces= MediaType.APPLICATION_JSON_VALUE)

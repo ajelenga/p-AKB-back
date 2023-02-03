@@ -1,7 +1,11 @@
 package com.projet.AKB.web.api;
 
 import com.projet.AKB.dtos.request.RequestTO;
+import com.projet.AKB.dtos.reservation.ReservationMapper;
 import com.projet.AKB.dtos.reservation.ReservationTO;
+import com.projet.AKB.dtos.vehicule.VehiculeMapper;
+import com.projet.AKB.dtos.vehicule.VehiculeMapperImpl;
+import com.projet.AKB.dtos.vehicule.VehiculeTO;
 import com.projet.AKB.entities.Reservation;
 import com.projet.AKB.entities.Vehicule;
 import com.projet.AKB.repositories.reservation.ReservationRepository;
@@ -20,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -32,6 +37,11 @@ public class ReservationController {
 
     @Autowired
     ReservationServiceImpl reservationService;
+@Autowired
+VehiculeMapperImpl vehiculeMapper;
+
+    @Autowired
+    ReservationMapper reservationMapper;
     @GetMapping(path = "/allReservation",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ReservationTO>> vehiculeList(){
         log.info("getReservation start");
@@ -64,6 +74,26 @@ public class ReservationController {
         Vehicule v = vehiculeRepository.save(reservation.getVehicule());
         Reservation r = reservationRepository.save(reservation);
         return new ResponseEntity<>(r, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/reservationOne/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReservationTO> getConnexion(@PathVariable(name = "id") Long code) throws Exception {
+        log.info("getReservation details start{} ++++++++++++++++++++");
+        Reservation v =new Reservation();
+        ReservationTO RTO = new ReservationTO();
+        Reservation r1;
+        List<Reservation> l = reservationRepository.findAll();
+        for(Reservation r : l ){
+            if(r.getIdrsv().equals(code)){
+                r1= r;
+                RTO = reservationMapper.toDTO(r1);
+                VehiculeTO VTO = new VehiculeTO();
+                Vehicule v1 = vehiculeRepository.findById(r.getVehicule().getIdvcl()).get();
+                VTO = vehiculeMapper.toDTO(v1);
+                RTO.setVehiculeTO(VTO);
+            }
+        }
+        return new ResponseEntity<>(RTO, HttpStatus.OK);
     }
 
 

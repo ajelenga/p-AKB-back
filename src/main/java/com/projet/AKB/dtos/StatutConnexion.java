@@ -16,5 +16,7 @@ public class StatutConnexion {
     private String prenomusrTO;
     private String statutTO;
 
+    private String commentaireTO;
+
     private HttpStatus reponseTO;
 }

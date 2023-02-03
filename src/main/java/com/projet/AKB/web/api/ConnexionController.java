@@ -55,6 +55,7 @@ public class ConnexionController {
 
     @PostMapping(path = "/connexionUser", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StatutConnexion> getConnexion2(@RequestBody LoginTO login) throws Exception {
+        log.info("Login du user {}", login.email);
         log.info("Login du user {}", login.getLogin());
         log.info("Mot de passe du user ={}", login.getMot_de_pass());
 
@@ -65,7 +66,7 @@ public class ConnexionController {
             response.setStatutTO("Pas de connexion");
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        User u =userConnexionAndInscriptionRepository.getById(c.getIdcpt());
+        User u =userConnexionAndInscriptionRepository.getById(c.getUser().getIdusr());
         response.setMailcptTO(c.getMailcpt());
         response.setPrenomusrTO(u.getPrenomusr());
         response.setNomusrTO(u.getNomusr());
