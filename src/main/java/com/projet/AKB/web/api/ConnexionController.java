@@ -53,7 +53,7 @@ public class ConnexionController {
 
     }*/
 
-    @GetMapping(path = "/connexionUser", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/connexionUser", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StatutConnexion> getConnexion2(@RequestBody LoginTO login) throws Exception {
         log.info("Login du user {}", login.getLogin());
         log.info("Mot de passe du user ={}", login.getMot_de_pass());
@@ -63,7 +63,7 @@ public class ConnexionController {
         log.info("Compte = {}", c);
         if (c == null) {
             response.setStatutTO("Pas de connexion");
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         User u =userConnexionAndInscriptionRepository.getById(c.getIdcpt());
         response.setMailcptTO(c.getMailcpt());
