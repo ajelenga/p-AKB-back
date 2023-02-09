@@ -28,7 +28,7 @@ public class Administrateur {
     private String photoprofiladm;
 
     @Column(name = "mot_de_passe_adm")
-    private String mot_de_passe_adm;
+    private String motdepasseadm;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_usr",nullable = false)

@@ -9,6 +9,7 @@ import com.projet.AKB.repositories.administrateur.AdminRepository;
 import com.projet.AKB.repositories.inscription.InscriptionRepository;
 import com.projet.AKB.repositories.inscription.UserConnexionAndInscriptionRepository;
 import com.projet.AKB.repositories.utilisateur.UtilisateurRepository;
+import com.projet.AKB.repositories.verificateur.VerificateurRepository;
 import com.projet.AKB.service.administrateur.AdministrateurService;
 import com.projet.AKB.service.inscription.InscriptionServiceImpl;
 import com.projet.AKB.service.verificateur.VerificateurService;
@@ -40,6 +41,9 @@ public class InscriptionController {
 
     @Autowired
     AdminRepository adminRepository;
+
+    @Autowired
+    VerificateurRepository verificateurRepository;
     @Autowired
     UtilisateurRepository utilisateurRepository;
 
@@ -67,8 +71,7 @@ public class InscriptionController {
         }
 
         User u1=new User();
-        response.setStatutTO("Inscription effectué");
-        compte.getUser().setDatenaissance(new Date(23/12/1994));
+        response.setStatutTO("Inscription utilisateur effectué");
         u1 = compte.getUser();
         log.info("USER ={}", u1);
         userInscriptionRepository.save(u1);
@@ -85,33 +88,37 @@ public class InscriptionController {
 
 
     @PostMapping(value = "/AjoutAdministrateur", produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> save(@RequestBody Administrateur administrateur) throws Exception {
+    public ResponseEntity<StatutConnexion> save(@RequestBody Administrateur administrateur) throws Exception {
         log.info("Ajout start");
         log.info("Ajouter d'un administrateur ={}", administrateur);
-
+        StatutConnexion response = new StatutConnexion();
         String email = administrateur.getMailadm();
         if(email !=null && !"".equals(email)){
             String compteObj = inscriptionService.fetchByEmail(email);
                 if(compteObj != null){
-                 ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué adresse email existe déja", HttpStatus.INTERNAL_SERVER_ERROR);
-                 return  inscriptionEffectué;
+                    response.setStatutTO("Inscription non effectué");
+                    response.setCommentaireTO("adesse email " + administrateur.getMailadm()+ " existe déja");
+                    ResponseEntity<StatutConnexion> inscriptionEffectué = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                    return  inscriptionEffectué;
+
             }
         }
         User u1=new User();
+        response.setStatutTO("Inscription admin effectué");
         u1 = administrateur.getUser();
         log.info("USER ={}", u1);
         userInscriptionRepository.save(u1);
         Administrateur comp = new Administrateur();
 
         comp.setMailadm(administrateur.getMailadm());
-        comp.setMot_de_passe_adm(administrateur.getMot_de_passe_adm());
+        comp.setMotdepasseadm(administrateur.getMotdepasseadm());
         comp.setUser(u1);
 
         log.info("compte ={}", comp);
         adminRepository.save(comp);
 
 
-        return new ResponseEntity<String>("Ajout de l'admin a été effectué avec succés", HttpStatus.CREATED);
+        return new ResponseEntity<StatutConnexion>(response, HttpStatus.CREATED);
 
     }
 
@@ -119,35 +126,38 @@ public class InscriptionController {
 
 
     @PostMapping(value = "/AjoutVerificateur", produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> save(@RequestBody Verificateur verificateur) throws Exception {
+    public ResponseEntity<StatutConnexion> save(@RequestBody Verificateur verificateur) throws Exception {
         log.info("Ajout start");
         log.info("Ajouter d'un Verificateur ={}", verificateur);
-
+        StatutConnexion response = new StatutConnexion();
         String email = verificateur.getMailvrf();
         if(email !=null && !"".equals(email)){
             String compteObj = inscriptionService.fetchByEmail(email);
                 if(compteObj != null){
-                    ResponseEntity<String> inscriptionEffectué = new ResponseEntity<>("Inscription non effectué adresse email existe déja", HttpStatus.INTERNAL_SERVER_ERROR);
+                    response.setStatutTO("Inscription non effectué");
+                    response.setCommentaireTO("adesse email " + verificateur.getMailvrf()+ " existe déja");
+                    ResponseEntity<StatutConnexion> inscriptionEffectué = new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
                     return  inscriptionEffectué;
 
             }
 
         }
         User u1=new User();
+        response.setStatutTO("Inscription verificateur effectué");
         u1 = verificateur.getUser();
         log.info("USER ={}", u1);
         userInscriptionRepository.save(u1);
-        Administrateur comp = new Administrateur();
+        Verificateur comp = new Verificateur();
 
-        comp.setMailadm(verificateur.getMailvrf());
-        comp.setMot_de_passe_adm(verificateur.getMotdepassevrf());
+        comp.setMailvrf(verificateur.getMailvrf());
+        comp.setMotdepassevrf(verificateur.getMotdepassevrf());
         comp.setUser(u1);
 
         log.info("compte ={}", comp);
-        adminRepository.save(comp);
+        verificateurRepository.save(comp);
 
 
-        return new ResponseEntity<String>("Ajout de l'admin a été effectué avec succés", HttpStatus.CREATED);
+        return new ResponseEntity<StatutConnexion>(response, HttpStatus.CREATED);
 
     }
 }

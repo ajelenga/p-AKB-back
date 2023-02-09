@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VerificateurRepository extends JpaRepository<Verificateur, Long> {
     Verificateur findBymailvrf(String email);
+
+    public Verificateur findBymailvrfAndMotdepassevrf(String email, String password);
 }
