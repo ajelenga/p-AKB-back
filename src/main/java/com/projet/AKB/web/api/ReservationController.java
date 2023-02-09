@@ -14,6 +14,7 @@ import com.projet.AKB.service.reservation.ReservationServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +68,22 @@ VehiculeMapperImpl vehiculeMapper;
 
         return new ResponseEntity<>(l, HttpStatus.OK);
     }
+
+
+    @PostMapping(path = "/RequestReservation",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Reservation>> RequestReservationPost(@RequestBody RequestTO requestTO) throws ParseException {
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(requestTO.getDateDebut());
+
+        System.out.println(date);
+        // ajouter une date
+        reservationService.formatDate(requestTO.getDateDebut());
+        List<Reservation> l;
+        l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),reservationService.formatDate(requestTO.getDateFin()),requestTO.getAddressePrise());
+
+
+        return new ResponseEntity<>(l, HttpStatus.OK);
+    }
+
 
 
     @PutMapping(path = "/AjoutReservation",  produces = MediaType.APPLICATION_JSON_VALUE)

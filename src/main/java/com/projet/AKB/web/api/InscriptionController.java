@@ -71,7 +71,11 @@ public class InscriptionController {
         }
 
         User u1=new User();
+
         response.setStatutTO("Inscription utilisateur effectué");
+        if(compte.getUser().getDatenaissance()==null){
+            compte.getUser().setDatenaissance(new Date());
+        }
         u1 = compte.getUser();
         log.info("USER ={}", u1);
         userInscriptionRepository.save(u1);

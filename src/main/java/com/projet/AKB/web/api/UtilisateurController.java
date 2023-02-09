@@ -62,6 +62,7 @@ public class UtilisateurController {
             return  new ResponseEntity<StatutConnexion>(response, HttpStatus.OK);
         }
         response.setStatutTO("compte attaché à l'email "+compte.getMailcpt() +" est supprimé  ");
+        response.setCommentaireTO("commentaireSupprime");
         utilisateurRepository.deleteById(c.getIdcpt());
         userRepository.deleteById(c.getUser().getIdusr());
         return  new ResponseEntity<StatutConnexion>(response, HttpStatus.OK);
