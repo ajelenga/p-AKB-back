@@ -83,6 +83,7 @@ public class ConnexionController {
             User u =userConnexionAndInscriptionRepository.getById(c.getUser().getIdusr());
             response.setMailcptTO(c.getMailcpt());
             response.setPrenomusrTO(u.getPrenomusr());
+            response.setGenreTO(u.getSexeusr());
             response.setNomusrTO(u.getNomusr());
             response.setReponseTO(HttpStatus.OK);
         }
@@ -92,6 +93,7 @@ public class ConnexionController {
             User u =userConnexionAndInscriptionRepository.getById(a.getUser().getIdusr());
             response.setMailcptTO(a.getMailadm());
             response.setPrenomusrTO(u.getPrenomusr());
+            response.setGenreTO(u.getSexeusr());
             response.setNomusrTO(u.getNomusr());
             response.setReponseTO(HttpStatus.OK);
         }
@@ -101,6 +103,60 @@ public class ConnexionController {
             User u =userConnexionAndInscriptionRepository.getById(v.getUser().getIdusr());
             response.setMailcptTO(v.getMailvrf());
             response.setPrenomusrTO(u.getPrenomusr());
+            response.setGenreTO(u.getSexeusr());
+            response.setNomusrTO(u.getNomusr());
+            response.setReponseTO(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping(path = "/detailUser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<StatutConnexion> getdetail(@RequestBody LoginTO login) throws Exception {
+        log.info("c{}", login.email);
+        log.info("Login du user {}", login.getLogin());
+        log.info("Mot de passe du user ={}", login.getMot_de_pass());
+        StatutConnexion response = new StatutConnexion();
+        Compte c =connexionRepository.findBymailcpt(login.getEmail());
+        Verificateur v =verificateurRepository.findBymailvrf(login.getEmail());
+        Administrateur a =adminRepository.findBymailadm(login.getEmail());
+
+        if (c == null && v==null && a==null) {
+            response.setStatutTO("Pas de connexion");
+            response.setStatutTO("");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        if(c!=null){
+            response.setStatutTO("user");
+            log.info("Compte = {}", c);
+            User u =userConnexionAndInscriptionRepository.getById(c.getUser().getIdusr());
+            response.setMailcptTO(c.getMailcpt());
+            response.setMdpTO(c.getMotdepassecpt());
+            response.setPrenomusrTO(u.getPrenomusr());
+            response.setGenreTO(u.getSexeusr());
+            response.setNomusrTO(u.getNomusr());
+            response.setReponseTO(HttpStatus.OK);
+        }
+        if (a!=null) {
+            response.setStatutTO("admin");
+            log.info("admin = {}", a);
+            User u =userConnexionAndInscriptionRepository.getById(a.getUser().getIdusr());
+            response.setMailcptTO(a.getMailadm());
+            response.setMdpTO(a.getMotdepasseadm());
+            response.setPrenomusrTO(u.getPrenomusr());
+            response.setGenreTO(u.getSexeusr());
+            response.setNomusrTO(u.getNomusr());
+            response.setReponseTO(HttpStatus.OK);
+        }
+        if(v!=null){
+            response.setStatutTO("verificateur");
+            log.info("verif = {}", v);
+            User u =userConnexionAndInscriptionRepository.getById(v.getUser().getIdusr());
+            response.setMailcptTO(v.getMailvrf());
+            response.setMdpTO(v.getMotdepassevrf());
+            response.setPrenomusrTO(u.getPrenomusr());
+            response.setGenreTO(u.getSexeusr());
             response.setNomusrTO(u.getNomusr());
             response.setReponseTO(HttpStatus.OK);
         }

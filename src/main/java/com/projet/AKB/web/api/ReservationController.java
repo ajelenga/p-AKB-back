@@ -70,7 +70,7 @@ VehiculeMapperImpl vehiculeMapper;
     }
 
 
-    @PostMapping(path = "/RequestReservation",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/RequestReservations",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Reservation>> RequestReservationPost(@RequestBody RequestTO requestTO) throws ParseException {
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(requestTO.getDateDebut());
 
@@ -112,6 +112,9 @@ VehiculeMapperImpl vehiculeMapper;
         }
         return new ResponseEntity<>(RTO, HttpStatus.OK);
     }
+
+
+
 
 
 

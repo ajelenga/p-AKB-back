@@ -20,7 +20,7 @@ public interface ReservationMapper {
     @Mapping(source ="datefinlocationrsv", target = "dateFinLocationTO")
     @Mapping(source ="cautionrsv", target = "cautionRsvTO")
     @Mapping(source ="paiementrsv", target = "paiementRsvTO")
-    @Mapping(source ="vehicule", target = "vehiculeTO")
+    @Mapping(source ="vehicule", target = "vehiculeTO",ignore = true)
     ReservationTO toDTO(Reservation d);
 
 }

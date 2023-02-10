@@ -12,8 +12,11 @@ import java.util.List;
 @Data
 public class StatutConnexion {
     private String mailcptTO;
+
+    private String mdpTO;
     private String nomusrTO;
     private String prenomusrTO;
+    private String genreTO;
     private String statutTO;
 
     private String commentaireTO;

@@ -37,13 +37,17 @@ public class VehiculeController {
 /*    @Autowired
     VehiculeMapper vehiculeMapper;*/
     @GetMapping(path = "/vehicules",  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Vehicule>> vehiculeList(){
+    public ResponseEntity<List<VehiculeTO>> vehiculeList(){
         log.info("getVehicule start");
         log.info("getVehicule start{} ++++++++++++++++++++");
         List<Vehicule> l= new ArrayList<>();
-        vehiculeService.getVehicules().get(0);
-        return new ResponseEntity<>(l, HttpStatus.OK);
+        List<VehiculeTO> lVTO= new ArrayList<>();
+        l= vehiculeService.getVehicules();
+        for(Vehicule v : l){
+            lVTO.add(vehiculeMapper.toDTO(v));
+        }
 
+        return new ResponseEntity<>(lVTO, HttpStatus.OK);
     }
 
     @GetMapping(path = "/vehiculeOne/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)

@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 public interface VehiculeMapper  {
 
 
-    @Mapping(source ="idvcl", target = "idvclTO", ignore = true)
+    @Mapping(source ="idvcl", target = "idvclTO")
     @Mapping(source ="marquevcl", target = "marquevclTO")
     @Mapping(source ="modelvcl", target = "modelvclTO")
     @Mapping(source ="serievcl", target = "serievclTO")
@@ -27,7 +27,7 @@ public interface VehiculeMapper  {
     @Mapping(source ="datefindisponibilite", target = "datefindisponibiliteTO")
     @Mapping(source ="cautionvcl", target = "cautionvclTO")
     @Mapping(source ="prixvcl", target = "prixvclTO")
-    @Mapping(source ="compte.idcpt", target = "compteTO")
+   @Mapping(source ="compte.user.idusr", target = "compteTO")
     @Mapping(source ="compte.user.nomusr", target = "nomcompteTO")
     VehiculeTO toDTO(Vehicule d);
 
