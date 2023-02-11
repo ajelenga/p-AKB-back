@@ -55,6 +55,7 @@ VehiculeMapperImpl vehiculeMapper;
     }
 
 
+
     @GetMapping(path = "/RequestReservation",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Reservation>> RequestReservation(@RequestBody RequestTO requestTO) throws ParseException {
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(requestTO.getDateDebut());
@@ -70,19 +71,36 @@ VehiculeMapperImpl vehiculeMapper;
     }
 
 
-    @PostMapping(path = "/RequestReservations",  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Reservation>> RequestReservationPost(@RequestBody RequestTO requestTO) throws ParseException {
+    @PostMapping(path = "/RequestReservation",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReservationTO>> RequestReservationPost(@RequestBody RequestTO requestTO) throws ParseException {
         Date date = new SimpleDateFormat("yyyy-MM-dd").parse(requestTO.getDateDebut());
-
+        log.info("RequestReservation avec conditions {} ++++++++++++++++++++", requestTO );
         System.out.println(date);
         // ajouter une date
         reservationService.formatDate(requestTO.getDateDebut());
         List<Reservation> l;
+        ReservationTO RTO = new ReservationTO();
+        Reservation r1;
+        List<ReservationTO> lVTO = new ArrayList<ReservationTO>();
         l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),reservationService.formatDate(requestTO.getDateFin()),requestTO.getAddressePrise());
+        log.info("RequestReservation avec conditions liste renvoyé {} ++++++++++++++++++++", l );
+        for(Reservation r : l){
 
-
-        return new ResponseEntity<>(l, HttpStatus.OK);
+            r1= r;
+            RTO = reservationMapper.toDTO(r1);
+            VehiculeTO VTO = new VehiculeTO();
+            Vehicule v1 = vehiculeRepository.findById(r.getVehicule().getIdvcl()).get();
+            VTO = vehiculeMapper.toDTO(v1);
+            RTO.setVehiculeTO(VTO);
+            if(!lVTO.contains(RTO)) {
+                lVTO.add(RTO);
+            }
+        }
+        
+        return new ResponseEntity<>(lVTO, HttpStatus.OK);
     }
+
+
 
 
 

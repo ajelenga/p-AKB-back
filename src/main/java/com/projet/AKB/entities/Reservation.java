@@ -26,14 +26,14 @@ public class Reservation {
     private Long numeroreservationrsv;
 
     @DateTimeFormat(pattern="dd/MM/yyyy")
-    @Column(name = "date_debut_location_rsv",nullable = false)
+    @Column(name = "date_debut_location_rsv",nullable = true)
     private Date datedebutlocationrsv;
 
     @DateTimeFormat(pattern="dd/MM/yyyy")
     @Column(name = "adresse_prise_vehicule_rsv",nullable = false)
     private String adressePriseVehicule;
 
-    @Column(name = "date_fin_location_rsv",nullable = false)
+    @Column(name = "date_fin_location_rsv",nullable = true)
     private Date datefinlocationrsv;
 
     @Column(name = "caution_rsv",nullable = false)
