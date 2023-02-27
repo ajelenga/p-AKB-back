@@ -1,5 +1,7 @@
 package com.projet.AKB.web.api;
 
+import com.projet.AKB.dtos.StatutConnexion;
+import com.projet.AKB.dtos.request.RequestReservationTO;
 import com.projet.AKB.dtos.request.RequestTO;
 import com.projet.AKB.dtos.reservation.ReservationMapper;
 import com.projet.AKB.dtos.reservation.ReservationTO;
@@ -8,6 +10,7 @@ import com.projet.AKB.dtos.vehicule.VehiculeMapperImpl;
 import com.projet.AKB.dtos.vehicule.VehiculeTO;
 import com.projet.AKB.entities.Reservation;
 import com.projet.AKB.entities.Vehicule;
+import com.projet.AKB.entities.Verificateur;
 import com.projet.AKB.repositories.reservation.ReservationRepository;
 import com.projet.AKB.repositories.vehicule.VehiculeRepository;
 import com.projet.AKB.service.reservation.ReservationServiceImpl;
@@ -22,10 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -64,7 +64,8 @@ VehiculeMapperImpl vehiculeMapper;
         // ajouter une date
         reservationService.formatDate(requestTO.getDateDebut());
         List<Reservation> l;
-        l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),reservationService.formatDate(requestTO.getDateFin()),requestTO.getAddressePrise());
+        l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),requestTO.getAddressePrise());
+        /*l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),reservationService.formatDate(requestTO.getDateFin()),requestTO.getAddressePrise()); */
 
 
         return new ResponseEntity<>(l, HttpStatus.OK);
@@ -82,7 +83,8 @@ VehiculeMapperImpl vehiculeMapper;
         ReservationTO RTO = new ReservationTO();
         Reservation r1;
         List<ReservationTO> lVTO = new ArrayList<ReservationTO>();
-        l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),reservationService.formatDate(requestTO.getDateFin()),requestTO.getAddressePrise());
+        l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),requestTO.getAddressePrise());
+       // l =  reservationRepository.findReservation(reservationService.formatDate(requestTO.getDateDebut()),reservationService.formatDate(requestTO.getDateFin()),requestTO.getAddressePrise());
         log.info("RequestReservation avec conditions liste renvoyé {} ++++++++++++++++++++", l );
         for(Reservation r : l){
 
@@ -96,7 +98,7 @@ VehiculeMapperImpl vehiculeMapper;
                 lVTO.add(RTO);
             }
         }
-        
+
         return new ResponseEntity<>(lVTO, HttpStatus.OK);
     }
 
@@ -112,7 +114,7 @@ VehiculeMapperImpl vehiculeMapper;
     }
 
     @GetMapping(path = "/reservationOne/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReservationTO> getConnexion(@PathVariable(name = "id") Long code) throws Exception {
+    public ResponseEntity<ReservationTO> getreservationOne(@PathVariable(name = "id") Long code) throws Exception {
         log.info("getReservation details start{} ++++++++++++++++++++");
         Reservation v =new Reservation();
         ReservationTO RTO = new ReservationTO();
@@ -129,6 +131,14 @@ VehiculeMapperImpl vehiculeMapper;
             }
         }
         return new ResponseEntity<>(RTO, HttpStatus.OK);
+    }
+
+
+    @PostMapping(value = "/effectuerReservation", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> faireReservation(@RequestBody RequestReservationTO data)  throws Exception {
+        System.out.println(data.getIdV() + data.getIdC());
+        reservationService.faireReservation(data);
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
 

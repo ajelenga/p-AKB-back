@@ -164,4 +164,7 @@ public class InscriptionController {
         return new ResponseEntity<StatutConnexion>(response, HttpStatus.CREATED);
 
     }
+
+
+
 }
