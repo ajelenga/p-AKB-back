@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public interface ReservationMapper {
-
     @Mapping(source ="idrsv", target = "idTO")
     @Mapping(source ="numeroreservationrsv", target = "numeroReservationTO")
     @Mapping(source ="datedebutlocationrsv", target = "dateDebutLocationTO")

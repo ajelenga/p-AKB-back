@@ -1,6 +1,8 @@
 package com.projet.AKB.service.reservation;
 
+import com.projet.AKB.dtos.request.RequestRUserTO;
 import com.projet.AKB.dtos.request.RequestReservationTO;
+import com.projet.AKB.dtos.reservation.ReservationMapper;
 import com.projet.AKB.dtos.reservation.reservationMapImpl;
 import com.projet.AKB.dtos.reservation.ReservationTO;
 import com.projet.AKB.entities.Compte;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -34,6 +37,7 @@ public class ReservationServiceImpl implements ReservationService {
     private InscriptionRepository compteRespository;
     @Autowired
     private VehiculeRepository vehiculeRepository;
+
 
 
     public List<ReservationTO> getReservation() {
@@ -63,6 +67,9 @@ public class ReservationServiceImpl implements ReservationService {
         Optional<Vehicule> v = vehiculeRepository.findById(Long.parseLong(data.getIdV()));
         Reservation r1= r.get() ;
         if(c !=null && v !=null){
+            if(v.get().getStatutvcl().equals("à louer")){
+                return "Vehicules déja en location";
+            }
             v.get().setStatutvcl("à louer");
             c.get().getReservation().add(r1);
             res="Reservation effectué";
@@ -77,4 +84,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+    public List<ReservationTO> reservationUser(RequestRUserTO requestTO) {
+        List<ReservationTO> listeReservtion;
+
+        Compte c = compteRespository.findBymailcpt(requestTO.getEmail());
+        System.out.println(c);
+        List<ReservationTO> lr = c.getReservation().stream().map(reservationMapper::toDTO).collect(Collectors.toList());
+        return lr;
+
+    }
 }

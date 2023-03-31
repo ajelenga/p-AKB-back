@@ -1,6 +1,7 @@
 package com.projet.AKB.web.api;
 
 import com.projet.AKB.dtos.StatutConnexion;
+import com.projet.AKB.dtos.request.RequestRUserTO;
 import com.projet.AKB.dtos.request.RequestReservationTO;
 import com.projet.AKB.dtos.request.RequestTO;
 import com.projet.AKB.dtos.reservation.ReservationMapper;
@@ -137,8 +138,18 @@ VehiculeMapperImpl vehiculeMapper;
     @PostMapping(value = "/effectuerReservation", produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> faireReservation(@RequestBody RequestReservationTO data)  throws Exception {
         System.out.println(data.getIdV() + data.getIdC());
-        reservationService.faireReservation(data);
-        return new ResponseEntity<>("ok", HttpStatus.OK);
+        String res  = reservationService.faireReservation(data);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+
+
+    @PostMapping(path = "/ReservationUser",  produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReservationTO>> RequestReservationPost(@RequestBody RequestRUserTO requestTO) throws ParseException {
+        log.info(requestTO.getEmail());
+        List<ReservationTO> reservationTOList = reservationService.reservationUser(requestTO);
+        log.info(requestTO.getEmail());
+        return new ResponseEntity<>(reservationTOList, HttpStatus.OK);
     }
 
 

@@ -2,6 +2,8 @@ package com.projet.AKB.web.api;
 
 
 
+import com.projet.AKB.dtos.request.RequestTO;
+import com.projet.AKB.dtos.request.ResponseOur;
 import com.projet.AKB.dtos.vehicule.VehiculeMapper;
 import com.projet.AKB.dtos.vehicule.VehiculeTO;
 import com.projet.AKB.entities.Vehicule;
@@ -63,10 +65,12 @@ public class VehiculeController {
 
 
     @PostMapping(value = "/ajoutVehicule", produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> save(@RequestBody Vehicule vehicule) throws Exception {
+    public ResponseEntity<ResponseOur> save(@RequestBody Vehicule vehicule) throws Exception {
         log.info("ajoutVehicule start");
         vehiculeRepository.save(vehicule);
-        return new ResponseEntity<String>("Vehciule ajouter", HttpStatus.CREATED);
+        ResponseOur r = new ResponseOur();
+        r.setResultat("OK");
+        return new ResponseEntity<ResponseOur>(r, HttpStatus.CREATED);
     }
 
 
